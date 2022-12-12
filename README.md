@@ -3,14 +3,16 @@
 The objective of this project is to demonste ETL concept through a simple project.
 
 ## Project Description
-This is a simple project to describe ETL process with Python and SQLite. The extraction process uses Python requests library and the transormation process uses Python requests library, then the data is loaded to the SQLite database with the help of Python `sqlite3` library. The data source is from openbrewery API which shares an open data of a list of breweries (mostly) in America. The API is open and requires no API Key, can be accessed based on several values. Please visit the API documentaiton for more detail.
+This is a simple project to describe ETL process with Python and SQLite. The extraction process uses Python requests library and the transormation process uses Python requests library, then the data is loaded to the SQLite database with the help of Python `sqlite3` library. 
+
+The data source is from [openbrewerydb API](https://www.openbrewerydb.org/) which shares an open data of a list of breweries (mostly) in America. The API is open and requires no API Key, can be accessed based on several values. Please visit the [API documentaiton](https://www.openbrewerydb.org/documentation) for more detail.
 
 ## Library requirements
 Here are the Python libraries that are used for this project
 ```
-pandas=
-requests=
-sqlite3=
+pandas=1.4.2
+requests=2.27.1
+sqlite3=2.6.0
 ```
 Pandas and Requests are external libraries, can be installed with `pip` or `conda`. On the other hand, `sqlite3` is a built in library and its version might depends on the Python version.
 
