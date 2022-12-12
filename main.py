@@ -1,10 +1,9 @@
 import pandas as pd
-from time import sleep
 from requests import get
 from sql_ops import open_connection, create_table, insert_data
 
 
-BASE_URL = "https://api.openbrewerydb.org/breweries?per_page=10"
+BASE_URL = "https://api.openbrewerydb.org/breweries"
 SQLITE_PATH = "breweries.db"
 DROPPED_COLUMNS = [
     "id", "address_2", "address_3", 
@@ -42,7 +41,6 @@ df_breweries = pd.json_normalize(data)
 
 # showing the DataFrame before data transformation
 check_data_status()
-sleep(3)
 
 # Data Transformation 1: Removing unnecessary table
 df_breweries.drop(DROPPED_COLUMNS, axis=1, inplace=True)
@@ -51,7 +49,11 @@ df_breweries.drop(DROPPED_COLUMNS, axis=1, inplace=True)
 df_breweries = df_breweries.astype(CHANGED_DTYPE)
 
 # Data Transformation 3: Changed null values
-df_breweries["website_url"].fillna("Unknown", inplace=True)
+for col in df_breweries.columns:
+    if (df_breweries[col].dtype == "O"):
+        df_breweries[col].fillna("Unknown", inplace=True)
+    elif (df_breweries[col].dtype == float):
+        df_breweries[col].fillna(0.0, inplace=True)
 
 # Data Transformation 4: Get Duplicates
 total_duplicates = len(df_breweries[df_breweries.duplicated(keep=False)])
@@ -59,7 +61,6 @@ if total_duplicates > 0:
     df_breweries.drop_duplicates(keep="first", inplace=True)
 
 check_data_status(True)
-sleep(3)
 # Loading data into SQLite
 connection = open_connection(SQLITE_PATH)
 
